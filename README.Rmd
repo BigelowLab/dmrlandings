@@ -1,0 +1,25 @@
+---
+title: "DMR Landings"
+output: github_document
+---
+
+```
+remotes::install("BigelowLab/dmrlandings")
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(dmrlandings)
+  library(dplyr)
+})
+```
+
+```{r}
+x = read_dmr_landings("merged") |>
+  glimpse()
+```
+
+```{r}
+y = annualize_dmr_landings(x) |>
+  glimpse()
+```

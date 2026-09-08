@@ -1,0 +1,16 @@
+Package: dmrlandings
+Type: Package
+Title: DMR landings
+Version: 0.1.0
+Author: Ben Tupper [aut, cre] <btupper@bigelow.org>
+Maintainer: Ben Tupper <btupper@bigelow.org>
+URL: https://github.com/bigelowlab/dmrlandings
+Description: R tools to ease mining DMR landings data.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)
+Imports:
+  rlang,
+  dplyr,
+  readr
