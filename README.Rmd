@@ -3,9 +3,36 @@ title: "DMR Landings"
 output: github_document
 ---
 
+A lightweight R package to simplify the import of [DMR annual commercial landings data](https://mainedmr.shinyapps.io/Landings_Portal/).  As described at the portal, the data are served in two forms:
+
++ "Historic" annual statewide totals per species (1880-2019)
+
++ "Modern" annual per-port totals per species (2008-2024)
+
+We provide two more forms:
+
++ "Merged" a simple merging of the two where "historic" ports are assigned the value of "ME".  This form likely has limited value.
+
++ "Annualized" a simple state wide total per species per year.  This may be more useful than "merged".
+
+The package should be updated every spring when [DMR updates the data source](https://mainedmr.shinyapps.io/Landings_Portal/).
+
+# Requirements
+
+- [R v4.3+](https://www.r-project.org/)
+
+- [readr](https://CRAN.R-project.org/package=readr)
+
+- [dplyr](https://CRAN.R-project.org/package=dplyr)
+
+
+# Installation
+
 ```
 remotes::install("BigelowLab/dmrlandings")
 ```
+
+# Usage
 
 ```{r}
 suppressPackageStartupMessages({
@@ -15,11 +42,18 @@ suppressPackageStartupMessages({
 ```
 
 ```{r}
-x = read_dmr_landings("merged") |>
+x = read_dmr_landings("modern") |>
   glimpse()
 ```
 
+
 ```{r}
-y = annualize_dmr_landings(x) |>
+x = read_dmr_landings("historic") |>
+  glimpse()
+```
+
+
+```{r}
+x = read_dmr_landings("annualized") |>
   glimpse()
 ```

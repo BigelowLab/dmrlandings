@@ -2,18 +2,19 @@
 #' 
 #' @description
 #' [Maine's DMR landings data portal](https://mainedmr.shinyapps.io/Landings_Portal/) allows
-#' for the download of "historic" (state wide annual totals per species) and "modern"
-#' (per port per species annual totals) landings data.  Use this function to 
-#' read historic, modern or merged data.
+#' for the download of "historic" (state wide annual totals per species), "modern" 
+#' (per port per species annual totals) or "annualized" (statewide totals per year per species)
+#' landings data.  Use this function to read historic, modern, merged or annualized data.
 #'  
 #' @export
-#' @param when chr, one of "modern" (default), "historic" or "merged"
+#' @param when chr, one of "modern" (default), "historic", "merged", "annualized"
 #' @return data frame
-read_dmr_landings = function(when = c("modern", "historic", "merged")[3]){
+read_dmr_landings = function(when = c("modern", "historic", 
+                                      "merged", "annualized")[4]){
   
   when = tolower(when[1])
   
-  if (when[1] == "merged") {
+  if (when[1] %in% c("merged", "annualized")) {
     x = read_dmr_landings("modern")
     y = read_dmr_landings("historic") |>
       dplyr::mutate(port = "ME",
@@ -21,6 +22,7 @@ read_dmr_landings = function(when = c("modern", "historic", "merged")[3]){
                     lob_zone = "ME",
                     weight_type = NA_character_)
     r = dplyr::bind_rows(x,y)
+    if (when[1] == "annualized") r = annualize_dmr_landings(r)
   } else {
     pat = switch(when[1],
                  "modern" = "^.*_Modern_.*\\.csv$",
@@ -34,7 +36,7 @@ read_dmr_landings = function(when = c("modern", "historic", "merged")[3]){
   r
 }
 
-#' Aggregate data to state-wide scale
+#' Aggregate data to state-wide annual totals per species
 #' 
 #' @export
 #' @param x data frame of dmr landings (merged)

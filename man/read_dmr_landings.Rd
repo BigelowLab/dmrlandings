@@ -4,17 +4,17 @@
 \alias{read_dmr_landings}
 \title{Read ME DMR landings data}
 \usage{
-read_dmr_landings(when = c("modern", "historic", "merged")[3])
+read_dmr_landings(when = c("modern", "historic", "merged", "annualized")[4])
 }
 \arguments{
-\item{when}{chr, one of "modern" (default), "historic" or "merged"}
+\item{when}{chr, one of "modern" (default), "historic", "merged", "annualized"}
 }
 \value{
 data frame
 }
 \description{
 \href{https://mainedmr.shinyapps.io/Landings_Portal/}{Maine's DMR landings data portal} allows
-for the download of "historic" (state wide annual totals per species) and "modern"
-(per port per species annual totals) landings data.  Use this function to
-read historic, modern or merged data.
+for the download of "historic" (state wide annual totals per species), "modern"
+(per port per species annual totals) or "annualized" (statewide totals per year per species)
+landings data.  Use this function to read historic, modern, merged or annualized data.
 }

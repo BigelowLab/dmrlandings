@@ -2,7 +2,7 @@
 % Please edit documentation in R/dmr.R
 \name{annualize_dmr_landings}
 \alias{annualize_dmr_landings}
-\title{Aggregate data to state-wide scale}
+\title{Aggregate data to state-wide annual totals per species}
 \usage{
 annualize_dmr_landings(x = read_dmr_landings(when = "merged"))
 }
@@ -13,5 +13,5 @@ annualize_dmr_landings(x = read_dmr_landings(when = "merged"))
 data frame
 }
 \description{
-Aggregate data to state-wide scale
+Aggregate data to state-wide annual totals per species
 }
