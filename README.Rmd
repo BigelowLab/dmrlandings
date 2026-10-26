@@ -3,7 +3,7 @@ title: "DMR Landings"
 output: github_document
 ---
 
-A lightweight R package to simplify the import of [DMR annual commercial landings data](https://mainedmr.shinyapps.io/Landings_Portal/).  As described at the portal, the data are served in two forms:
+A lightweight R package to simplify the import of [DMR annual commercial landings data](https://mainedmr.shinyapps.io/Landings_Portal/).  As described at the portal, the data are served in three forms:
 
 + "Historic" annual statewide totals per species (1880-2019)
 
@@ -15,7 +15,9 @@ We provide two more forms:
 
 + "Annualized" a simple state wide total per species per year.  This may be more useful than "merged".
 
-The package should be updated every spring when [DMR updates the data source](https://mainedmr.shinyapps.io/Landings_Portal/).
++ "Consolidated" an extracted data set from decades of annual reports rich with tables of interest.  Reyn Yoshioka extracted the tabular data using Claude (details below). These are annual records by species.
+
+The package should be updated every spring when [DMR updates the data source](https://mainedmr.shinyapps.io/Landings_Portal/), and after the [DMR annual commercial landings reports](https://www.maine.gov/dmr/fisheries/commercial) are published.
 
 # Requirements
 
@@ -41,19 +43,35 @@ suppressPackageStartupMessages({
 })
 ```
 
+**Modern landings** data is broken down by species and port.
 ```{r}
 x = read_dmr_landings("modern") |>
   glimpse()
 ```
 
+**Historical landings** data are broken down by species only (statewide totals)
 
 ```{r}
 x = read_dmr_landings("historic") |>
   glimpse()
 ```
 
+**Annualized landings** data merges modern and historical data into species and port.
 
 ```{r}
 x = read_dmr_landings("annualized") |>
+  glimpse()
+```
+
+**Consolidated landings** data were in October 2026 extracted using Claude.  After extraction a random sample of 150 records were manually checked against the original report (all correct).  Subsequent years will be extracted by hand.  Important considerations when using these data...
+
+ + whole pounds and live pounds were consolidated into pounds,
+ + confidential and fishery closed indications were translated to flag columns (1 means confidential or closed),
+ + salmon from 1990 and on are farmed,
+ + from 2001-2007, sea cucumber landings are as reported by harvesters, from 2008 and on landings are from dealers,
+ + all data are considered provisional by DMR, but future curators should understand that the last year on record is subject to change in the next year's report.
+ 
+```{r}
+x = read_dmr_landings("consolidated") |>
   glimpse()
 ```

@@ -4,10 +4,12 @@
 \alias{read_dmr_landings}
 \title{Read ME DMR landings data}
 \usage{
-read_dmr_landings(when = c("modern", "historic", "merged", "annualized")[4])
+read_dmr_landings(
+  what = c("modern", "historic", "merged", "annualized", "consolidated")[4]
+)
 }
 \arguments{
-\item{when}{chr, one of "modern" (default), "historic", "merged", "annualized"}
+\item{what}{chr, one of "modern" (default), "historic", "merged", "annualized"}
 }
 \value{
 data frame
@@ -16,5 +18,9 @@ data frame
 \href{https://mainedmr.shinyapps.io/Landings_Portal/}{Maine's DMR landings data portal} allows
 for the download of "historic" (state wide annual totals per species), "modern"
 (per port per species annual totals) or "annualized" (statewide totals per year per species)
-landings data.  Use this function to read historic, modern, merged or annualized data.
+landings data. Consolidated data is extracted from decades of annual landings reports
+distributed as PDF documents. Reyn Yoshioka extracted the data with using Claude, and
+then manually checked a random selection of 150 records and found that Claude was
+faithful to the original. Use this function to read historic, modern,
+merged consolidated or annualized data.
 }

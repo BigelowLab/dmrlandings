@@ -4,7 +4,7 @@
 \alias{annualize_dmr_landings}
 \title{Aggregate data to state-wide annual totals per species}
 \usage{
-annualize_dmr_landings(x = read_dmr_landings(when = "merged"))
+annualize_dmr_landings(x = read_dmr_landings(what = "merged"))
 }
 \arguments{
 \item{x}{data frame of dmr landings (merged)}

@@ -4,17 +4,22 @@
 #' [Maine's DMR landings data portal](https://mainedmr.shinyapps.io/Landings_Portal/) allows
 #' for the download of "historic" (state wide annual totals per species), "modern" 
 #' (per port per species annual totals) or "annualized" (statewide totals per year per species)
-#' landings data.  Use this function to read historic, modern, merged or annualized data.
+#' landings data. Consolidated data is extracted from decades of annual landings reports
+#' distributed as PDF documents. Reyn Yoshioka extracted the data with using Claude, and 
+#' then manually checked a random selection of 150 records and found that Claude was
+#' faithful to the original. Use this function to read historic, modern, 
+#' merged consolidated or annualized data.
 #'  
 #' @export
-#' @param when chr, one of "modern" (default), "historic", "merged", "annualized"
+#' @param what chr, one of "modern" (default), "historic", "merged", "annualized"
 #' @return data frame
-read_dmr_landings = function(when = c("modern", "historic", 
-                                      "merged", "annualized")[4]){
+read_dmr_landings = function(what = c("modern", "historic", 
+                                      "merged", "annualized",
+                                      "consolidated")[4]){
   
-  when = tolower(when[1])
+  what = tolower(what[1])
   
-  if (when[1] %in% c("merged", "annualized")) {
+  if (what[1] %in% c("merged", "annualized")) {
     x = read_dmr_landings("modern")
     y = read_dmr_landings("historic") |>
       dplyr::mutate(port = "ME",
@@ -22,12 +27,13 @@ read_dmr_landings = function(when = c("modern", "historic",
                     lob_zone = "ME",
                     weight_type = NA_character_)
     r = dplyr::bind_rows(x,y)
-    if (when[1] == "annualized") r = annualize_dmr_landings(r)
+    if (what[1] == "annualized") r = annualize_dmr_landings(r)
   } else {
-    pat = switch(when[1],
-                 "modern" = "^.*_Modern_.*\\.csv$",
-                 "historic" = "^.*_Historic_.*\\.csv$",
-                 stop("when not known", when[1]))
+    pat = switch(what[1],
+                 "modern" = "^.*_Modern_.*\\.csv\\.gz$",
+                 "historic" = "^.*_Historic_.*\\.csv\\.gz$",
+                 "consolidated" = "^DMR_landings_consolidated_.*\\.csv\\.gz$",
+                 stop("what not known", what[1]))
     filename = list.files(system.file("extdata", package = "dmrlandings"),
                           pattern = pat,
                           full.names = TRUE)
@@ -41,7 +47,7 @@ read_dmr_landings = function(when = c("modern", "historic",
 #' @export
 #' @param x data frame of dmr landings (merged)
 #' @return data frame
-annualize_dmr_landings = function(x = read_dmr_landings(when = "merged")){
+annualize_dmr_landings = function(x = read_dmr_landings(what = "merged")){
   
   x |>
     dplyr::group_by(species, year) |>

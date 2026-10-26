@@ -1,1 +1,15 @@
-2026-07-14 manually downloaded from https://mainedmr.shinyapps.io/Landings_Portal/ by BTT
+2026-07-14/2026-10-26 manually downloaded from https://mainedmr.shinyapps.io/Landings_Portal/ by BTT
+
+2026-1-26 RY used Claude to extract data from PDF annual reports going back decades.
+
+ "Here's where the consolidated DMR landings are as published in the pdfs: /mnt/s1/projects/ecocast/projects/ryoshioka/OceanIndicesExp/Data/MEDMR Landings/2026/DMR_landings_consolidated_2026.csv
+ 
+ A few nuances/caveats:
+   - whole pounds and live pounds were consolidated into pounds
+   - meat pounds were left as an additional column
+   - confidential and fishery closed indications were translated to flag columns
+   - These were compiled by Claude after which I did a manual check of 150 randomly sampled rows.
+   - salmon from 1990 and on are farmed
+   - from 2001-2007, sea cucumber landings are as reported by harvesters, from 2008 and on landings are from dealers"
+   
+ BTT coped these over to DMR_landings_consolidated_2026.csv.gz
